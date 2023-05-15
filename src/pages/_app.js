@@ -1,17 +1,7 @@
-import '../styles/globals.css'
-import AppContext from '@/context/AppContext'
-import useInitialState from '@/hooks/useInitialState'
-
-import Header from '../components/Header'
+import '@styles/tailwind.css'
 
 function MyApp({ Component, pageProps }) {
-  const initialState = useInitialState()
-  return (
-    <AppContext.Provider value={initialState}>
-      <Header />
-      <Component {...pageProps} />
-    </AppContext.Provider>
-  )
+  return <Component {...pageProps} />
 }
 
 export default MyApp

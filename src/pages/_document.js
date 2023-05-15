@@ -8,7 +8,6 @@ class MyDocument extends Document {
           <meta charSet="utf-8" />
           <meta name="description" content="Aprendiendo Next.js" />
           <meta name="robots" content="noindex, nofollow" />
-          <meta name="viewport" content="width=device-width" />
         </Head>
         <body>
           <Main />
