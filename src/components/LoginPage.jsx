@@ -1,6 +1,7 @@
 import { LockClosedIcon } from '@heroicons/react/solid'
 import Image from 'next/image'
 import { useRef, useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 import { useAuth } from '@/hooks/useAuth'
 import Loading from '@/common/Loading'
@@ -11,6 +12,7 @@ export default function LoginPage() {
   const auth = useAuth()
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -18,10 +20,15 @@ export default function LoginPage() {
     const password = passwordRef.current.value
 
     setLoading(true)
-    const response = await auth.signIn(email, password)
-    if (response.authError) {
-      setError(response.authError)
-    } else setError('')
+    try {
+      const response = await auth.signIn(email, password)
+      if (response) {
+        router.push('/dashboard')
+      }
+    } catch (error) {
+      console.log('>error', error)
+      setError('Invalid email or password')
+    }
     setLoading(false)
   }
 

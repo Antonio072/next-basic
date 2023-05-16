@@ -15,45 +15,37 @@ export const useAuth = () => {
 
 function useProviderAuth() {
   const [user, setUser] = useState(null)
-  const [authError, setAuthError] = useState(null)
-
-  const options = {
-    headers: {
-      accept: '*',
-      'Content-Type': 'application/json',
-    },
-  }
 
   const signIn = async (email, password) => {
-    try {
-      const { data: access_token } = await axios.post(
-        WebServices.auth.login,
-        {
-          email,
-          password,
-        },
-        options
-      )
-
-      if (access_token && access_token !== undefined) {
-        Cookie.set('access_token', access_token.access_token, { expires: 5 })
-        Cookie.set('refresh_token', access_token.refresh_token, { expires: 5 })
-
-        axios.defaults.headers.Authorization = `Bearer ${access_token.access_token}`
-        const { data: user } = await axios.get(WebServices.auth.profile, options)
-        setUser(user)
-        setAuthError('')
-      }
-    } catch (authError) {
-      setAuthError('Email or password is incorrect')
+    const options = {
+      headers: {
+        accept: '*',
+        'Content-Type': 'application/json',
+      },
     }
+    const { data: access_token } = await axios.post(
+      WebServices.auth.login,
+      {
+        email,
+        password,
+      },
+      options
+    )
 
-    return { user, authError }
+    if (access_token && access_token !== undefined) {
+      Cookie.set('access_token', access_token.access_token, { expires: 5 })
+      Cookie.set('refresh_token', access_token.refresh_token, { expires: 5 })
+      const token = access_token.access_token
+      Cookie.set('token', token, { expires: 5 })
+      axios.defaults.headers.Authorization = `Bearer ${token}`
+      const { data: user } = await axios.get(WebServices.auth.profile)
+      setUser(user)
+      return user
+    }
   }
 
   return {
     user,
     signIn,
-    authError,
   }
 }
