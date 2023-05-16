@@ -4,6 +4,8 @@
     "paths": {
       "@/*": ["*"],
       "@assets/*": ["assets/*"],
+      "@common/*": ["common/*"],
+      "@layouts/*": ["layouts/*"],
       "@components/*": ["components/*"],
       "@containers/*": ["containers/*"],
       "@context/*": ["context/*"],
