@@ -1,28 +1,35 @@
 import { LockClosedIcon } from '@heroicons/react/solid'
 import Image from 'next/image'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 
 import { useAuth } from '@/hooks/useAuth'
+import Loading from '@/common/Loading'
 
 export default function LoginPage() {
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
   const auth = useAuth()
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     const email = emailRef.current.value
     const password = passwordRef.current.value
 
+    setLoading(true)
     const respose = await auth.signIn(email, password)
-    console.log(respose)
+    if (respose.error) {
+      setError(respose.error)
+    }
+    setLoading(false)
   }
   return (
     <>
       <div className="min-h-full w-md flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div>
-            <Image height={100} width={100} src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow" />
+            <Image height={100} width={100} src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow" className="mx-auto" />
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
           </div>
           <form className="mt-8 space-y-6" action="#" method="POST" onSubmit={(event) => handleSubmit(event)}>
@@ -74,16 +81,26 @@ export default function LoginPage() {
                 </a>
               </div>
             </div>
-
+            {error && error.length > 0 && (
+              <div class="border-1 border-red-800 p-3 mb-3 text-md text-white bg-red-600 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+                <span class="font-medium">Error!</span> {error}
+              </div>
+            )}
             <div>
               <button
                 type="submit"
                 className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                  <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
-                </span>
-                Sign in
+                {!loading ? (
+                  <div>
+                    <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                      <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
+                    </span>
+                    Sign in
+                  </div>
+                ) : (
+                  <Loading color="text-white" />
+                )}
               </button>
             </div>
           </form>
