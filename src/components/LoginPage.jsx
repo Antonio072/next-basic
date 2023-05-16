@@ -1,6 +1,6 @@
 import { LockClosedIcon } from '@heroicons/react/solid'
 import Image from 'next/image'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 
 import { useAuth } from '@/hooks/useAuth'
 import Loading from '@/common/Loading'
@@ -18,12 +18,16 @@ export default function LoginPage() {
     const password = passwordRef.current.value
 
     setLoading(true)
-    const respose = await auth.signIn(email, password)
-    if (respose.error) {
-      setError(respose.error)
-    }
+    const response = await auth.signIn(email, password)
+    if (response.authError) {
+      setError(response.authError)
+    } else setError('')
     setLoading(false)
   }
+
+  useEffect(() => {
+    setError(auth.authError)
+  }, [auth.authError])
   return (
     <>
       <div className="min-h-full w-md flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">

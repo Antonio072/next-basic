@@ -15,7 +15,7 @@ export const useAuth = () => {
 
 function useProviderAuth() {
   const [user, setUser] = useState(null)
-  const [error, setError] = useState(null)
+  const [authError, setAuthError] = useState(null)
 
   const options = {
     headers: {
@@ -38,17 +38,22 @@ function useProviderAuth() {
       if (access_token && access_token !== undefined) {
         Cookie.set('access_token', access_token.access_token, { expires: 5 })
         Cookie.set('refresh_token', access_token.refresh_token, { expires: 5 })
-        setUser(access_token)
+
+        axios.defaults.headers.Authorization = `Bearer ${access_token.access_token}`
+        const { data: user } = await axios.get(WebServices.auth.profile, options)
+        setUser(user)
+        setAuthError('')
       }
-    } catch (error) {
-      setError('Email or password is incorrect')
+    } catch (authError) {
+      setAuthError('Email or password is incorrect')
     }
-    return { user, error }
+
+    return { user, authError }
   }
 
   return {
     user,
     signIn,
-    error,
+    authError,
   }
 }
