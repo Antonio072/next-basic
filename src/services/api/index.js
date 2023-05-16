@@ -2,7 +2,7 @@ const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:1337'
 const VERSION = process.env.NEXT_PUBLIC_API_VERSION || 'v1'
 const API_URL = `${API}/api/${VERSION}`
 
-export const endPoints = {
+export const WebServices = {
   auth: {
     login: `${API_URL}/auth/login`,
     profile: `${API_URL}/auth/profile`,

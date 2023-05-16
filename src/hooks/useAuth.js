@@ -1,7 +1,7 @@
 import React, { useState, useContext, createContext } from 'react'
 import Cookie from 'js-cookie'
 import axios from 'axios'
-
+import { WebServices } from '@services/api/index'
 const authContext = createContext()
 
 export function ProviderAuth({ children }) {
@@ -16,8 +16,22 @@ export const useAuth = () => {
 function useProviderAuth() {
   const [user, setUser] = useState(null)
 
+  const options = {
+    headers: {
+      accept: '*',
+      'Content-Type': 'application/json',
+    },
+  }
+
   const signIn = async (email, password) => {
-    setUser('login')
+    const { data: access_token } = await axios.post(
+      WebServices.auth.login,
+      {
+        email,
+        password,
+      },
+      options
+    )
   }
 
   return {

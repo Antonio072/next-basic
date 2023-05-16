@@ -2,26 +2,20 @@ import { LockClosedIcon } from '@heroicons/react/solid'
 import Image from 'next/image'
 import { useRef } from 'react'
 
+import { useAuth } from '@/hooks/useAuth'
+
 export default function LoginPage() {
   const emailRef = useRef(null)
   const passwordRef = useRef(null)
+  const auth = useAuth()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(emailRef.current.value)
+    const email = emailRef.current.value
+    const password = passwordRef.current.value
 
-    // const res = await fetch('http://localhost:3000/api/login', {
-    //   body: JSON.stringify({
-    //     email: emailRef.current.value,
-    //     password: passwordRef.current.value,
-    //   }),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   method: 'POST',
-    // })
-    // const result = await res.json()
-    // console.log(result)
+    const respose = await auth.signIn(email, password)
+    console.log(respose)
   }
   return (
     <>
