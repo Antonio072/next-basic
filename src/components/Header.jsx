@@ -22,9 +22,9 @@ function classNames(...classes) {
 export default function Header() {
   const auth = useAuth()
   const userData = {
-    name: auth.user.name,
-    email: auth.user.email,
-    imageUrl: auth.user.avatar,
+    name: auth?.user?.name || 'Usuario',
+    email: auth?.user?.email || 'mail@mail.com',
+    imageUrl: auth?.user?.avatar || 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50',
   }
 
   return (
