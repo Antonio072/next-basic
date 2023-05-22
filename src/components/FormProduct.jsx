@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { addProduct } from '@api/products'
 
-export default function FormProduct() {
+export default function FormProduct({ setOpen, setAlert }) {
   const formRef = useRef(null)
   const [error, setError] = useState(null)
 
@@ -39,8 +39,25 @@ export default function FormProduct() {
       images: [`https://${formData.get('images').name}`],
     }
     const passedCheck = checkData(data)
-    if (passedCheck) {
-      addProduct(data)
+
+    try {
+      if (passedCheck) {
+        addProduct(data)
+        setAlert({
+          active: true,
+          message: 'Product added successfully',
+          type: 'success',
+          autoClose: true,
+        })
+        setOpen(false)
+      }
+    } catch (error) {
+      setAlert({
+        active: true,
+        message: 'Error adding product',
+        type: 'error',
+        autoClose: true,
+      })
     }
   }
 
