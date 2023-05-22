@@ -16,6 +16,7 @@
       "@icons/*": ["assets/icons/*"],
       "@logos/*": ["assets/logos/*"],
       "@services/*": ["services/*"],
+      "@api/*": ["pages/api/*"]
     }
   }
 }
