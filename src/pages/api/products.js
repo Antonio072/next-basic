@@ -12,4 +12,9 @@ const addProduct = async (data) => {
   return response.data
 }
 
-export { addProduct }
+const deleteProduct = async (id) => {
+  const response = await axios.delete(WebServices.products.delete(id))
+  return response.data
+}
+
+export { addProduct, deleteProduct }

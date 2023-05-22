@@ -6,6 +6,7 @@ import useAlert from '@hooks/useAlert'
 import { WebServices } from '@/services/api'
 import axios from 'axios'
 import Alert from '@common/Alert'
+import { deleteProduct } from '@/pages/api/products'
 
 export default function Products() {
   const [open, setOpen] = useState(false)
@@ -14,7 +15,7 @@ export default function Products() {
 
   useEffect(() => {
     async function getProducts() {
-      const response = await axios.get(WebServices.products.getAll(0,0))
+      const response = await axios.get(WebServices.products.getAll(0, 0))
       setProducts(response.data)
     }
     try {
@@ -23,6 +24,16 @@ export default function Products() {
       console.log(error)
     }
   }, [alert])
+
+  const handleDelete = async (id) => {
+    await deleteProduct(id)
+    setAlert({
+      active: true,
+      message: 'Delete product successfuly',
+      type: 'success',
+      autoClose: true,
+    })
+  }
 
   return (
     <>
@@ -93,14 +104,12 @@ export default function Products() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{product.id}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a href="/edit" className="text-indigo-600 hover:text-indigo-900">
-                          Edit
-                        </a>
+                        <button className="text-indigo-600 hover:text-indigo-900">Edit</button>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a href="/edit" className="text-indigo-600 hover:text-indigo-900">
+                        <button className="text-indigo-600 hover:text-indigo-900" onClick={() => handleDelete(product.id)}>
                           Delete
-                        </a>
+                        </button>
                       </td>
                     </tr>
                   ))}
