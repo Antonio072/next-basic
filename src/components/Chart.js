@@ -4,6 +4,7 @@ import { Bar } from 'react-chartjs-2'
 ChartJS.register(CategoryScale, LinearScale, BarElement, BarController, Tooltip, Legend)
 
 export const Chart = ({ data }) => {
+  console.log('>>>data', data)
   return (
     <>
       <Bar

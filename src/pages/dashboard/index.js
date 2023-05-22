@@ -3,6 +3,7 @@ import Image from 'next/image'
 import useFetch from '@/hooks/useFetch'
 import { WebServices } from '@/services/api'
 import Paginate from '@/components/Pagination'
+import { Chart } from '@/components/Chart'
 
 const people = [
   {
@@ -23,9 +24,29 @@ export default function Dashboard() {
 
   const products = useFetch(WebServices.products.getAll(PRODUCT_LIMIT, offsetProducts), offsetProducts)
   const totalProducts = useFetch(WebServices.products.getAll(0, 0)).length
+  console.log('>PRODUCTS', products)
+  const categoryNames = products?.map((product) => product.category)
+  console.log('>>>categoryNames', categoryNames)
+  const categoryCount = categoryNames?.map((category) => category.name)
+  console.log('>>>categoryCount', categoryCount)
+
+  const countOccurrence = (arr) => arr.reduce((prev, curr) => ((prev[curr] = ++prev[curr] || 1), prev), {})
+  console.log('>>>countOccurrence', countOccurrence(categoryCount))
+
+  const data = {
+    datasets: [
+      {
+        label: 'Count:',
+        data: countOccurrence(categoryCount),
+        borderWidth: 2,
+        backgroundColor: ['#2563EB', '#3B82F6', '#60A5FA', '#93C5FD', '#BFDBFE', '#DBEAFE', '#F3F4F6', '#F9FAFB'],
+      },
+    ],
+  }
 
   return (
     <>
+      <Chart className="mb-8 mt-2" data={data}></Chart>
       <div className="flex flex-col">
         <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
