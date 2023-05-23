@@ -98,7 +98,7 @@ export default function FormProduct({ product, setOpen, setAlert }) {
               />
             </div>
             <div className="col-span-6">
-              <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="category" className="block text-sm font-medium text-gray-700" for="category">
                 Category
               </label>
               <select
@@ -131,7 +131,9 @@ export default function FormProduct({ product, setOpen, setAlert }) {
             </div>
             <div className="col-span-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Cover photo</label>
+                <label className="block text-sm font-medium text-gray-700" htmlFor="images">
+                  Cover photo
+                </label>
                 <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-700 border border-xsshed rounded-md">
                   <div className="space-y-1 text-center">
                     <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">

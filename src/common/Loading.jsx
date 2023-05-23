@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const Loading = ({ color }) => {
   return (
@@ -10,7 +10,7 @@ const Loading = ({ color }) => {
         <div>Loading ...</div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Loading;
+export default Loading

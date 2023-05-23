@@ -4,6 +4,7 @@ import useFetch from '@/hooks/useFetch'
 import { WebServices } from '@/services/api'
 import Paginate from '@/components/Pagination'
 import { Chart } from '@/components/Chart'
+import Link from 'next/link'
 
 const people = [
   {
@@ -98,14 +99,14 @@ export default function Dashboard() {
                           <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <a href="edit" className="text-indigo-600 hover:text-indigo-900">
+                          <Link href="edit" className="text-indigo-600 hover:text-indigo-900">
                             Edit
-                          </a>
+                          </Link>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <a href="edit" className="text-indigo-600 hover:text-indigo-900">
+                          <Link href="edit" className="text-indigo-600 hover:text-indigo-900">
                             Delete
-                          </a>
+                          </Link>
                         </td>
                       </tr>
                     ))}

@@ -9,9 +9,9 @@ export default function Edit() {
   const router = useRouter()
   const [notFound, setNotFound] = useState(false)
 
-  async function getProduct() {
+  async function getProduct(id) {
     try {
-      const response = await axios.get(endPoints.products.getProduct(id))
+      const response = await axios.get(WebServices.products.get(id))
 
       if (response) {
         setProduct(response.data)
