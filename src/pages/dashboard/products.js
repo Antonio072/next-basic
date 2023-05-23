@@ -7,6 +7,7 @@ import { WebServices } from '@/services/api'
 import axios from 'axios'
 import Alert from '@common/Alert'
 import { deleteProduct } from '@/pages/api/products'
+import Link from 'next/link'
 
 export default function Products() {
   const [open, setOpen] = useState(false)
@@ -104,7 +105,9 @@ export default function Products() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{product.id}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <button className="text-indigo-600 hover:text-indigo-900">Edit</button>
+                        <Link href={`/dashboard/edit/${product.id}`} className="text-indigo-600 hover:text-indigo-900">
+                          Edit
+                        </Link>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button className="text-indigo-600 hover:text-indigo-900" onClick={() => handleDelete(product.id)}>

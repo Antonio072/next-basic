@@ -1,7 +1,9 @@
 import { useRef, useState } from 'react'
-import { addProduct } from '@api/products'
+import { addProduct, updateProduct } from '@api/products'
+import { useRouter } from 'next/router'
 
-export default function FormProduct({ setOpen, setAlert }) {
+export default function FormProduct({ product, setOpen, setAlert }) {
+  const router = useRouter()
   const formRef = useRef(null)
   const [error, setError] = useState(null)
 
@@ -42,14 +44,20 @@ export default function FormProduct({ setOpen, setAlert }) {
 
     try {
       if (passedCheck) {
-        addProduct(data)
-        setAlert({
-          active: true,
-          message: 'Product added successfully',
-          type: 'success',
-          autoClose: true,
-        })
-        setOpen(false)
+        if (product) {
+          updateProduct(product.id, data).then(() => {
+            router.push('/dashboard/products/')
+          })
+        } else {
+          addProduct(data)
+          setAlert({
+            active: true,
+            message: 'Product added successfully',
+            type: 'success',
+            autoClose: true,
+          })
+          setOpen(false)
+        }
       }
     } catch (error) {
       setAlert({
@@ -75,19 +83,26 @@ export default function FormProduct({ setOpen, setAlert }) {
               <label htmlFor="title" className="block text-sm font-medium text-gray-700">
                 Title
               </label>
-              <input type="text" name="title" id="title" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full border-gray-700 border rounded-xs" />
+              <input defaultValue={product?.title} type="text" name="title" id="title" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full border-gray-700 border rounded-xs" />
             </div>
             <div className="col-span-6 sm:col-span-3 ">
               <label htmlFor="price" className="block text-sm font-medium text-gray-700 ">
                 Price
               </label>
-              <input type="number" name="price" id="price" className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full border-gray-700 border rounded-xs" />
+              <input
+                defaultValue={product?.price}
+                type="number"
+                name="price"
+                id="price"
+                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full border-gray-700 border rounded-xs"
+              />
             </div>
             <div className="col-span-6">
               <label htmlFor="category" className="block text-sm font-medium text-gray-700">
                 Category
               </label>
               <select
+                value={product?.category?.id}
                 id="category"
                 name="category"
                 autoComplete="category-name"
@@ -106,6 +121,7 @@ export default function FormProduct({ setOpen, setAlert }) {
                 Description
               </label>
               <textarea
+                defaultValue={product?.description}
                 name="description"
                 id="description"
                 autoComplete="description"
@@ -131,7 +147,7 @@ export default function FormProduct({ setOpen, setAlert }) {
                         htmlFor="images"
                         className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
                       >
-                        <span>Upload a file</span>
+                        <span>Upload a file </span>
                         <input id="images" name="images" type="file" className="sr-only" />
                       </label>
                       <p className="pl-1">or drag and drop</p>
