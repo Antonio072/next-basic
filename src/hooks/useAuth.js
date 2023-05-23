@@ -44,8 +44,18 @@ function useProviderAuth() {
     }
   }
 
+  const logout = () => {
+    Cookie.remove('access_token')
+    Cookie.remove('refresh_token')
+    Cookie.remove('token')
+    setUser(null)
+    delete axios.defaults.headers.Authorization
+    window.location.href = '/login'
+  }
+
   return {
     user,
     signIn,
+    logout,
   }
 }
